@@ -1,10 +1,9 @@
 import json
 
-# Define the exact text from the master prompt for all 11 programs
 expected = [
     {
         "id": 1,
-        "topic": "Find Eigen Values of a 3×3 Matrix",
+        "topic": "Eigenvalues",
         "code": """import numpy as np
 A=np.array([[2,1,1],[1,2,1],[1,1,2]])
 eigen_values=np.linalg.eigvals(A)
@@ -12,7 +11,7 @@ print("Eigen values:",np.round(eigen_values,2))"""
     },
     {
         "id": 2,
-        "topic": "Find Eigen Values of a 3×3 Complex Matrix",
+        "topic": "Complex Eigen",
         "code": """import numpy as np
 a=np.array([[2+1j,1,0],[0,3+2j,1],[0,0,4+3j]])
 e=np.linalg.eigvals(a)
@@ -20,7 +19,7 @@ print("Eigen values:",e)"""
     },
     {
         "id": 3,
-        "topic": "Find Eigen Values and Eigen Vectors of a 3×3 Matrix",
+        "topic": "Eigen Vectors",
         "code": """import numpy as np
 A=np.array([[1,2,0],[2,1,0],[0,0,3]])
 vals,vect=np.linalg.eig(A)
@@ -29,7 +28,7 @@ print("Eigen vectors:\\n",vect)"""
     },
     {
         "id": 4,
-        "topic": "Find the Root of a Given Non-Linear Equation Using Bisection Method",
+        "topic": "Bisection",
         "code": """def f(x):
     return x**3-5*x+1
 def bisection_method(a,b,E):
@@ -57,7 +56,7 @@ if root is not None:
     },
     {
         "id": 5,
-        "topic": "Find the Root of a Given Non-Linear Equation Using Newton-Raphson Method",
+        "topic": "Newton-Raphson",
         "code": """def f(x):
     return x**3-5*x+1
 def df(x):
@@ -79,7 +78,7 @@ print("Root =",x_new)"""
     },
     {
         "id": 6,
-        "topic": "Solution of a System of Linear Equations Using Gauss-Jacobi Method",
+        "topic": "Jacobi",
         "code": """x_old,y_old,z_old=0.0,0.0,0.0
 E=0.00001
 n=15
@@ -102,7 +101,7 @@ print(f"z:{z_new}")"""
     },
     {
         "id": 7,
-        "topic": "Gauss-Seidel Method",
+        "topic": "Seidel",
         "code": """x_old=0
 y_old=0
 z_old=0
@@ -128,7 +127,7 @@ print(f"z={z_new:.4f}")"""
     },
     {
         "id": 8,
-        "topic": "Solution of Exact Differential Equation",
+        "topic": "Exact DE",
         "code": """import sympy as s
 x,y=s.symbols('x y')
 M=2*x*y+y**2
@@ -145,7 +144,7 @@ else:
     },
     {
         "id": 9,
-        "topic": "Solution of Non-Exact Differential Equation",
+        "topic": "Non-Exact DE",
         "code": """import sympy as s
 x,y=s.symbols('x y')
 M=4*y+x**3
@@ -182,7 +181,7 @@ else:
     },
     {
         "id": 10,
-        "topic": "Solving Higher-Order Differential Equation",
+        "topic": "Higher-Order DE",
         "code": """import sympy as s
 x=s.symbols('x')
 y=s.Function('y')
@@ -195,7 +194,7 @@ s.pprint(solution)"""
     },
     {
         "id": 11,
-        "topic": "Solving Non-Homogeneous Higher-Order Differential Equation",
+        "topic": "Non-Homogeneous DE",
         "code": """import sympy as s
 x=s.symbols('x')
 y=s.Function('y')
@@ -216,7 +215,7 @@ assert len(actual) == 11, f"Expected 11 programs, got {len(actual)}"
 for exp, act in zip(expected, actual):
     assert exp["id"] == act["id"], f"ID mismatch: {exp['id']} vs {act['id']}"
     assert exp["topic"] == act["topic"], f"Topic mismatch in #{exp['id']}: '{exp['topic']}' vs '{act['topic']}'"
-    assert exp["code"] == act["code"], f"Code mismatch in #{exp['id']}!\nExpected:\n{exp['code']}\nActual:\n{act['code']}"
-    print(f"Verified Program {exp['id']}: '{exp['topic']}' matches 100% byte-for-byte!")
+    assert exp["code"] == act["code"], f"Code mismatch in #{exp['id']}"
+    print(f"Verified Program {exp['id']}: '{exp['topic']}' matches 100%!")
 
-print("\nALL 11 PROGRAMS ARE 100% IDENTICAL AND VERIFIED!")
+print("\nALL 11 ULTRA-SHORT LABELS AND CODES VERIFIED!")

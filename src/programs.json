@@ -1,57 +1,57 @@
 [
   {
     "id": 1,
-    "topic": "Find Eigen Values of a 3×3 Matrix",
+    "topic": "Eigenvalues",
     "code": "import numpy as np\nA=np.array([[2,1,1],[1,2,1],[1,1,2]])\neigen_values=np.linalg.eigvals(A)\nprint(\"Eigen values:\",np.round(eigen_values,2))"
   },
   {
     "id": 2,
-    "topic": "Find Eigen Values of a 3×3 Complex Matrix",
+    "topic": "Complex Eigen",
     "code": "import numpy as np\na=np.array([[2+1j,1,0],[0,3+2j,1],[0,0,4+3j]])\ne=np.linalg.eigvals(a)\nprint(\"Eigen values:\",e)"
   },
   {
     "id": 3,
-    "topic": "Find Eigen Values and Eigen Vectors of a 3×3 Matrix",
+    "topic": "Eigen Vectors",
     "code": "import numpy as np\nA=np.array([[1,2,0],[2,1,0],[0,0,3]])\nvals,vect=np.linalg.eig(A)\nprint(\"Eigen values:\\n\",vals)\nprint(\"Eigen vectors:\\n\",vect)"
   },
   {
     "id": 4,
-    "topic": "Find the Root of a Given Non-Linear Equation Using Bisection Method",
+    "topic": "Bisection",
     "code": "def f(x):\n    return x**3-5*x+1\ndef bisection_method(a,b,E):\n    if f(a)*f(b)>0:\n        print(\"Root doesn't exist in this interval\")\n        return None\n    c=(a+b)/2.0\n    print(\"a\\t\\tb\\t\\tc\")\n    while abs(b-a)/2.0>E:\n        c=(a+b)/2.0\n        print(f\"{a:.5f}\\t{b:.5f}\\t{c:.5f}\")\n        if f(c)==0:\n            break\n        elif f(a)*f(c)<0:\n            b=c\n        else:\n            a=c\n    return c\na=float(input(\"Enter a: \"))\nb=float(input(\"Enter b: \"))\nE=float(input(\"Enter E (tolerance): \"))\nroot=bisection_method(a,b,E)\nif root is not None:\n    print(f\"\\nThe root is: {root:.4f}\")"
   },
   {
     "id": 5,
-    "topic": "Find the Root of a Given Non-Linear Equation Using Newton-Raphson Method",
+    "topic": "Newton-Raphson",
     "code": "def f(x):\n    return x**3-5*x+1\ndef df(x):\n    return 3*x**2-5\nx_old=0.5\nE=0.000001\nn=10\nprint(\"--------------------------------\")\nprint(\"Iteration   x_old   x_new   Error\")\nprint(\"--------------------------------\")\nfor i in range(n):\n    x_new=x_old-f(x_old)/df(x_old)\n    error=abs(x_new-x_old)\n    print(f\"{i+1:2d}  {x_old:.5f}  {x_new:.5f}  {error:.5f}\")\n    if error<E:\n        break\n    x_old=x_new\nprint(\"Root =\",x_new)"
   },
   {
     "id": 6,
-    "topic": "Solution of a System of Linear Equations Using Gauss-Jacobi Method",
+    "topic": "Jacobi",
     "code": "x_old,y_old,z_old=0.0,0.0,0.0\nE=0.00001\nn=15\nprint(\"----------------------------------------\")\nprint(\"Iteration    x_new      y_new      z_new\")\nprint(\"----------------------------------------\")\nfor i in range(n):\n    x_new=(6+y_old-2*z_old)/10\n    y_new=(25+x_old+z_old)/11\n    z_new=(-11-2*x_old+y_old)/10\n    print(f\"{i+1:2d}  {x_new:.4f}  {y_new:.4f}  {z_new:.4f}\")\n    if abs(x_new-x_old)<E and abs(y_new-y_old)<E and abs(z_new-z_old)<E:\n        break\n    x_old=x_new\n    y_old=y_new\n    z_old=z_new\nprint(f\"x:{x_new}\")\nprint(f\"y:{y_new}\")\nprint(f\"z:{z_new}\")"
   },
   {
     "id": 7,
-    "topic": "Gauss-Seidel Method",
+    "topic": "Seidel",
     "code": "x_old=0\ny_old=0\nz_old=0\nE=0.00001\nn=15\nprint(\"------------------------------------------\")\nprint(\"Iteration\\t x-new\\t y-new\\t z-new\")\nprint(\"------------------------------------------\")\nfor i in range(n):\n    x_new=(4-y_old-2*z_old)/4\n    y_new=(7-3*x_new-z_old)/5\n    z_new=(3-x_new-y_new)/3\n    print(f\"{i+1:2d}\\t{x_new:.5f}\\t{y_new:.5f}\\t{z_new:.5f}\")\n    if abs(x_new-x_old)<E and abs(y_new-y_old)<E and abs(z_new-z_old)<E:\n        print(\"------------------------------------------\")\n        break\n    x_old=x_new\n    y_old=y_new\n    z_old=z_new\nprint(f\"x={x_new:.4f}\")\nprint(f\"y={y_new:.4f}\")\nprint(f\"z={z_new:.4f}\")"
   },
   {
     "id": 8,
-    "topic": "Solution of Exact Differential Equation",
+    "topic": "Exact DE",
     "code": "import sympy as s\nx,y=s.symbols('x y')\nM=2*x*y+y**2\nN=x**2+2*x*y\nMy=s.diff(M,y)\nNx=s.diff(N,x)\nif My==Nx:\n    print(\"Exact DE\")\n    F=s.integrate(M,x)\n    F=F+s.integrate(N-s.diff(F,y),y)\n    print(\"Solution:\",F,\"= C\")\nelse:\n    print(\"Non-Exact DE\")"
   },
   {
     "id": 9,
-    "topic": "Solution of Non-Exact Differential Equation",
+    "topic": "Non-Exact DE",
     "code": "import sympy as s\nx,y=s.symbols('x y')\nM=4*y+x**3\nN=x\nMy=s.diff(M,y)\nNx=s.diff(N,x)\nif My==Nx:\n    print(\"Exact Differential Equation\")\n    F=s.integrate(M,x)\n    F=F+s.integrate(N-s.diff(F,y),y)\n    print(\"Solution:\",F,\"= C\")\nelse:\n    print(\"Non-Exact DE\")\n    IF=None\n    IF1=s.simplify((My-Nx)/N)\n    IF2=s.simplify(-(My-Nx)/M)\n    if not IF1.has(y):\n        IF=s.simplify(s.exp(s.integrate(IF1,x)))\n        print(\"IF depends on x\")\n    elif not IF2.has(x):\n        IF=s.simplify(s.exp(s.integrate(IF2,y)))\n        print(\"IF depends on y\")\n    else:\n        print(\"No IF found\")\n    if IF is not None:\n        print(\"Integrating Factor:\",IF)\n        M1=s.simplify(IF*M)\n        N1=s.simplify(IF*N)\n        print(\"Mnew:\",M1)\n        print(\"Nnew:\",N1)\n        F=s.integrate(M1,x)\n        F=F+s.integrate(N1-s.diff(F,y),y)\n        print(\"Solution:\",F,\"= C\")"
   },
   {
     "id": 10,
-    "topic": "Solving Higher-Order Differential Equation",
+    "topic": "Higher-Order DE",
     "code": "import sympy as s\nx=s.symbols('x')\ny=s.Function('y')\ndeq=s.diff(y(x),x,2)-4*s.diff(y(x),x)+4*y(x)\nsolution=s.dsolve(deq,y(x))\nprint(\"Differential Equation:\")\ns.pprint(deq)\nprint(\"General Solution:\")\ns.pprint(solution)"
   },
   {
     "id": 11,
-    "topic": "Solving Non-Homogeneous Higher-Order Differential Equation",
+    "topic": "Non-Homogeneous DE",
     "code": "import sympy as s\nx=s.symbols('x')\ny=s.Function('y')\neq=s.Eq(s.diff(y(x),x,2)-3*s.diff(y(x),x)+2*y(x),s.exp(3*x))\nsol=s.dsolve(eq)\nprint(\"Differential Equation:\")\ns.pprint(eq)\nprint(\"Solution:\")\ns.pprint(sol)"
   }
 ]
