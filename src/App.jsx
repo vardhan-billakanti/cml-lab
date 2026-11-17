@@ -8,7 +8,8 @@ export default function App() {
     return id >= 1 && id <= 11 ? id : null;
   });
 
-  const [copied, setCopied] = useState(false);
+  const [copiedId, setCopiedId] = useState(null);
+  const [copiedProgramView, setCopiedProgramView] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -27,7 +28,7 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setCopied(false);
+    setCopiedProgramView(false);
   }, [selectedId]);
 
   const selectProgram = (id) => {
@@ -44,14 +45,11 @@ export default function App() {
 
   const selectedProgram = programs.find((p) => p.id === selectedId);
 
-  const handleCopy = async () => {
-    if (!selectedProgram) return;
-    const textToCopy = selectedProgram.code;
-
+  const copyCode = async (code) => {
     let success = false;
     try {
       if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(textToCopy);
+        await navigator.clipboard.writeText(code);
         success = true;
       }
     } catch {
@@ -61,7 +59,7 @@ export default function App() {
     if (!success) {
       try {
         const textarea = document.createElement('textarea');
-        textarea.value = textToCopy;
+        textarea.value = code;
         textarea.setAttribute('readonly', '');
         textarea.style.position = 'fixed';
         textarea.style.left = '-9999px';
@@ -75,12 +73,28 @@ export default function App() {
         success = false;
       }
     }
+    return success;
+  };
 
+  const handleHomeCopy = async (e, program) => {
+    e.stopPropagation();
+    const success = await copyCode(program.code);
     if (success) {
-      setCopied(true);
+      setCopiedId(program.id);
       setTimeout(() => {
-        setCopied(false);
-      }, 2000);
+        setCopiedId(null);
+      }, 1500);
+    }
+  };
+
+  const handleProgramCopy = async () => {
+    if (!selectedProgram) return;
+    const success = await copyCode(selectedProgram.code);
+    if (success) {
+      setCopiedProgramView(true);
+      setTimeout(() => {
+        setCopiedProgramView(false);
+      }, 1500);
     }
   };
 
@@ -88,19 +102,36 @@ export default function App() {
     <div className="app-container">
       {!selectedProgram ? (
         <main className="home-view">
-          <header className="header">
-            <h1 className="title">CML Lab</h1>
-          </header>
           <div className="topics-grid">
             {programs.map((program) => (
-              <button
+              <div
                 key={program.id}
-                type="button"
-                className="topic-box"
-                onClick={() => selectProgram(program.id)}
+                role="button"
+                tabIndex={0}
+                className={`topic-card ${copiedId === program.id ? 'copied' : ''}`}
+                onClick={(e) => handleHomeCopy(e, program)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleHomeCopy(e, program);
+                  }
+                }}
               >
-                <span className="topic-text">{program.topic}</span>
-              </button>
+                <span className="topic-text">
+                  {copiedId === program.id ? 'Copied' : program.topic}
+                </span>
+                <button
+                  type="button"
+                  className="open-btn"
+                  title="Open program"
+                  aria-label={`Open ${program.topic}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    selectProgram(program.id);
+                  }}
+                >
+                  <span className="open-icon">›</span>
+                </button>
+              </div>
             ))}
           </div>
         </main>
@@ -117,10 +148,10 @@ export default function App() {
             </button>
             <button
               type="button"
-              className={`copy-btn ${copied ? 'copied' : ''}`}
-              onClick={handleCopy}
+              className={`copy-btn ${copiedProgramView ? 'copied' : ''}`}
+              onClick={handleProgramCopy}
             >
-              {copied ? 'Copied' : 'Copy'}
+              {copiedProgramView ? 'Copied' : 'Copy'}
             </button>
           </header>
 
